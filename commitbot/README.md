@@ -4,7 +4,7 @@ Commit Checker Bot checks if there was a new commit of one of the tracked GitHub
 
 ## Memo and TODO's
 - [] Logics
-    - [] CommitDate, RepoName, CommitterName, CommitId, CommitMessage 
+    - [] RepoName, LastCommitId, LastCommitDate, LastCommitterName, LastCommitMessage 
 - [] Check how twitterbot check "last release" since last check
     - [] Cron style schedule using python
 - [] Configurations

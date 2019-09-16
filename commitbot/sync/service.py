@@ -1,15 +1,22 @@
 import github_api as gh_api
-from typing import List
+from typing import List, Dict, Tuple
 
 
-def get_repos_and_commits() -> List[tuple]:
-    # repos array -> repo dict -> collect all repo names to a list
-    seq = []
-    for repo in gh_api.get_repositories():
-        repo_name = repo['name']
-        commits = gh_api.get_commits(repo_name)
-        seq.append((repo_name, commits))
-    return seq
+def get_all_repositories_names() -> iter:
+    return map(lambda repo: repo['name'] if repo else '', gh_api.get_repositories())
+
+
+def get_last_commit_payload(repo_name: str) -> Tuple[str, str, str, str]:
+    last_commit = gh_api.get_commits(repo_name)[0]
+    # Return empty tuple when last_commit is empty
+    if not last_commit:
+        return '', '', '', ''
+    return (
+        last_commit['sha'],
+        last_commit['commit']['committer']['date'],
+        last_commit['commit']['committer']['name'],
+        last_commit['commit']['message']
+    )
 
 
 def has_any_update_on_repositories(date: str) -> bool:

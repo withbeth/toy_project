@@ -66,9 +66,14 @@ def request(url: str, payload=None) -> List[str]:
         "Accept": "application/vnd.github.v3+json"
     }
     resp = requests.get(f"{ROOT_ENDPOINT}{url}", headers=headers, params=payload)
-    resp.raise_for_status()
 
-    print(Fore.YELLOW + "OK", flush=True)
-    return resp.json()
+    if resp.status_code == 200:
+        print(Fore.GREEN + f"OK {resp.status_code}", flush=True)
+        return resp.json()
+
+    print(Fore.LIGHTMAGENTA_EX + f"FAIL {resp.status_code} {resp.reason}", flush=True)
+    return ['']
+
+
 
 
